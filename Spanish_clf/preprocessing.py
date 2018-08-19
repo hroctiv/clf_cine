@@ -6,23 +6,35 @@ import es_core_news_md
 
 ESPECIALES_ESPANOL="áéíóúÁÉÍÓÚñÑüÜ"
 
-
-def separar_puntuacion(texto):
-    mapping = [(p, ' '+ p +' ') for p in string.punctuation]
+#Funciones de preprocesamiento (devuelven texto):
+def separar_puntuacion(texto, mapping=[(p, ' '+ p +' ') for p in string.punctuation]):
+    if not mapping:
+        mapping = [(p, ' '+ p +' ') for p in string.punctuation]
     for k, v in mapping:
         texto = texto.replace(k, v)
     return texto
 
 
-def procesar_negacion(texto, tokenizador=lambda x: x.split(), \
+def en_minusculas(texto):
+    return texto.lower()
+
+def sin_puntuacion(texto,mapping = [(p, ' ') for p in string.punctuation]):
+    if not mapping:
+        mapping = [(p, ' ') for p in string.punctuation]
+    for k, v in mapping:
+        texto = texto.replace(k, v)
+    return texto
+
+def en_minusculas_sin_puntuacion(texto):
+    return sin_puntuacion(texto.lower())
+
+def procesar_negacion(texto, tokenizador=tokenizador_dummy, \
                       separador_puntuacion = None,
                       palabras_negativas = ['no','sin','nunca'], devolver_texto=True):
     if separador_puntuacion: #separamos puntuaciones que esten pegadas a las palabras
         texto = separador_puntuacion(texto)
     else:
-        mapping = [(p, ' '+ p +' ') for p in string.punctuation]
-        for k, v in mapping:
-            texto = texto.replace(k, v)
+        texto = separar_puntuacion(texto)
         
     tokens = tokenizador(texto)
     tokens_negados = []
@@ -51,6 +63,9 @@ def procesar_negacion(texto, tokenizador=lambda x: x.split(), \
         return tokens_negados
 
 
+
+
+#tokenizadores
 def tokenizador_negacion(texto):
     return procesar_negacion(texto, separador_puntuacion=separar_puntuacion, devolver_texto=False)
     
