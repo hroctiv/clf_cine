@@ -64,7 +64,7 @@ def tokenizador_snowball_stem(texto, stemmer = SpanishStemmer()):
     return [stemmer.stem(token) for token in texto.split()]
 
 def tokenizador_spacy_simple(texto, nlp = es_core_news_md.load()):
-    return [token for token in nlp(texto)]
+    return [token.text for token in nlp(texto)]
 
 def tokenizador_spacy_lemma(texto, nlp = es_core_news_md.load()):
     return [token.lemma_ for token in nlp(texto)]
