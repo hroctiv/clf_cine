@@ -6,6 +6,16 @@ import es_core_news_md
 
 ESPECIALES_ESPANOL="áéíóúÁÉÍÓÚñÑüÜ"
 
+#preprocesador basico
+def en_minusculas(texto):
+    return texto.lower()
+
+
+#tokenizador basico
+def tokenizador_dummy(texto):
+    return texto.split()
+
+
 #Funciones de preprocesamiento (devuelven texto):
 def separar_puntuacion(texto, mapping=[(p, ' '+ p +' ') for p in string.punctuation]):
     if not mapping:
@@ -15,8 +25,7 @@ def separar_puntuacion(texto, mapping=[(p, ' '+ p +' ') for p in string.punctuat
     return texto
 
 
-def en_minusculas(texto):
-    return texto.lower()
+
 
 def sin_puntuacion(texto,mapping = [(p, ' ') for p in string.punctuation]):
     if not mapping:
@@ -70,8 +79,7 @@ def tokenizador_negacion(texto):
     return procesar_negacion(texto, separador_puntuacion=separar_puntuacion, devolver_texto=False)
     
     
-def tokenizador_dummy(texto):
-    return texto.split()
+
 
 
 def tokenizador_snowball_stem(texto, stemmer = SpanishStemmer()):
