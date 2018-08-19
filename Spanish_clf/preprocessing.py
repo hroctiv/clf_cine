@@ -1,4 +1,7 @@
 import string
+from nltk.stem import SnowballStemmer
+from nltk.stem.snowball import SpanishStemmer
+import es_core_news_md
 
 
 ESPECIALES_ESPANOL="áéíóúÁÉÍÓÚñÑüÜ"
@@ -48,6 +51,20 @@ def procesar_negacion(texto, tokenizador=lambda x: x.split(), \
         return tokens_negados
 
 
+def tokenizador_negacion(texto):
+    return procesar_negacion(texto, separador_puntuacion=separar_puntuacion, devolver_texto=False)
+    
+    
+def tokenizador_dummy(texto):
+    return texto.split()
 
-    
-    
+
+def tokenizador_snowball_stem(texto, stemmer = SpanishStemmer()):
+    texto = separar_puntuacion(texto)
+    return [stemmer.stem(token) for token in texto.split()]
+
+def tokenizador_spacy_simple(texto, nlp = es_core_news_md.load()):
+    return [token for token in nlp(texto)]
+
+def tokenizador_spacy_lemma(texto, nlp = es_core_news_md.load()):
+    return [token.lemma_ for token in nlp(texto)]
